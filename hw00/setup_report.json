@@ -1,0 +1,21 @@
+{
+ "python": "3.11.16",
+ "libraries": {
+  "numpy": "1.26.4",
+  "pandas": "2.2.1",
+  "scipy": "1.13.0",
+  "matplotlib": "3.8.4",
+  "seaborn": "0.13.2",
+  "statsmodels": "0.14.2",
+  "scikit-learn": "1.4.2",
+  "scikit-uplift": "0.5.1",
+  "lifetimes": "0.11.3",
+  "lifelines": "0.29.0",
+  "prophet": "1.1.5",
+  "cmdstanpy": "1.2.5",
+  "pycausalimpact": "0.1.1"
+ },
+ "failed": [],
+ "in_codespace": true,
+ "written_at": "2026-09-14T22:42:48+00:00"
+}
