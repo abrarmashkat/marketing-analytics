@@ -1,0 +1,36 @@
+{
+  "name": "Marketing Analytics",
+  "image": "mcr.microsoft.com/devcontainers/python:3.11",
+  "postCreateCommand": "pip install -q -r requirements.lock && echo '✅ Environment ready — all libraries installed.'",
+  "customizations": {
+    "vscode": {
+      "extensions": [
+        "ms-python.python",
+        "ms-toolsai.jupyter",
+        "ms-toolsai.jupyter-renderers",
+        "ms-python.vscode-pylance",
+        "GitHub.copilot",
+        "GitHub.copilot-chat"
+      ],
+      "settings": {
+        "python.defaultInterpreterPath": "/usr/local/bin/python",
+        "jupyter.notebookFileRoot": "${fileDirname}",
+        "editor.fontSize": 14,
+        "editor.rulers": [100],
+        "files.autoSave": "afterDelay",
+        "files.autoSaveDelay": 10000,
+        "github.copilot.enable": {
+          "*": true,
+          "plaintext": true,
+          "markdown": true,
+          "python": true
+        },
+        "github.copilot.chat.welcomeMessage": "always"
+      }
+    }
+  },
+  "forwardPorts": [8888],
+  "remoteEnv": {
+    "PYTHONPATH": "${containerWorkspaceFolder}"
+  }
+}

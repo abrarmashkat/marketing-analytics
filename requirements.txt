@@ -1,0 +1,48 @@
+# Marketing Analytics Course — Python dependencies
+# Pin versions for reproducibility across all student environments
+
+numpy==1.26.4
+pandas==2.2.1
+scipy==1.13.0
+matplotlib==3.8.4
+seaborn==0.13.2
+statsmodels==0.14.2
+scikit-learn==1.4.2
+scikit-uplift==0.5.1
+lifetimes==0.11.3
+lifelines==0.29.0
+prophet==1.1.5
+# prophet 1.1.5 declares only `cmdstanpy>=1.0.4`, so a fresh build resolves cmdstanpy
+# to the latest — and cmdstanpy 1.3.0 BREAKS it. Found by Task 037, 2026-08-19, the
+# same way Task 036 found causalimpact: the pin imports fine and cannot run.
+#   Why: the prophet wheel ships a TRIMMED cmdstan tree (bin/stanc, stansummary and
+#   the stan_math headers) alongside a precompiled prophet_model.bin, so it never
+#   needs to build and ships no top-level `makefile`. cmdstanpy 1.3.0's
+#   validate_cmdstan_path now REQUIRES that makefile, so set_cmdstan_path raises;
+#   prophet's backend loader swallows the exception (forecaster.py:158-166), never
+#   assigns self.stan_backend, and `Prophet()` — the CONSTRUCTOR, before any data —
+#   dies with AttributeError: 'Prophet' object has no attribute 'stan_backend'.
+#   Nothing in this repo changed; cmdstanpy shipped a stricter validator upstream.
+# Pinning cmdstanpy rather than bumping prophet is deliberate: it holds prophet at
+# 1.1.5 exactly, so hw11's answer values are untouched. Verified 2026-08-19 by
+# isolating the single variable in a clean py3.11 env — 1.3.0 fails at Prophet(),
+# 1.2.5 fits and predicts. tools/check_env_runs.py is what keeps this true.
+cmdstanpy==1.2.5
+# Willian Fuks / dafiti's implementation (statsmodels UnobservedComponents, MLE).
+# NOT Jamal Senouci's `causalimpact` distribution, which is what a bare
+# `pip install causalimpact` fetches. Both import as `causalimpact`, so the
+# difference is invisible at the import line. Repinned by Task 036, 2026-08-19,
+# for two independent reasons:
+#   1. `causalimpact==0.2.6` CANNOT RUN against the pandas pinned above. It calls
+#      pd.core.dtypes.common.is_datetime_or_timedelta_dtype, removed in pandas 2.x,
+#      on every input shape (both branches of analysis.py:181-188). It imports fine,
+#      which is why Task 010's import-only check passed it, then raises
+#      AttributeError on the first .run(). Students would hit a hard crash.
+#   2. hw14's answer key was computed with this package, and the textbook's
+#      bibliography already points at dafiti's.
+# Deterministic (MLE, not MCMC), so hw14's Part B needs no seed pin.
+pycausalimpact==0.1.1
+nbformat==5.10.4
+nbconvert==7.16.4
+ipykernel==6.29.4
+pytest==8.2.0

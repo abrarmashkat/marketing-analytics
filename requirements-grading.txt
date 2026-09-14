@@ -1,0 +1,22 @@
+# Dependencies for the AUTOGRADER only — not the student Codespace.
+#
+# grade.yml executes the submitted homework notebook and runs autograder.py.
+# Across all 15 homework notebooks the only imports are math, numpy, pandas and
+# sys, so the grading job does not need the full data-science stack that
+# requirements.txt installs for the Codespace.
+#
+# This exists because that full stack is the autograder's largest failure surface:
+# it pinned causalimpact==0.0.4, which does not exist for Python 3.11, so
+# `pip install -r requirements.txt` aborted and NO homework could grade at all
+# (Task 010). Installing sixteen heavy packages on every push to check a notebook
+# that imports two of them is a large risk for no benefit.
+#
+# grade.yml falls back to the full requirements.txt if execution fails, so a
+# student who pastes agent CODE (rather than the numbers the assignment asks for)
+# still gets graded rather than a zero.
+
+numpy==1.26.4
+pandas==2.2.1
+nbformat==5.10.4
+nbconvert==7.16.4
+ipykernel==6.29.4
